@@ -1,0 +1,149 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage[russian]{babel}
+\usepackage[width=18cm, top=2cm, bottom=2cm]{geometry}
+\usepackage{indentfirst}
+\usepackage{enumerate}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{pgf}
+\usepackage{pgfplotstable}
+		
+		\title{Задание №2\\
+			Интерполяция функций полиномами}
+		\author{Збродов Владислав}
+		
+\begin{document}
+	\maketitle
+	Необходимо выяснить, что будет происходить при росте числа интервалов интерполяции в случае использования равномерных и чебышевских сеток.
+	\section{Графики}
+	
+	\subsection{$f(x) = \frac{1}{1+x^2}, N = 2$}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm, height=7cm,
+			grid=major, legend pos=south east,
+			xlabel={$x$}, ylabel={$f(x)$},ymin=0
+			]
+			\node at (axis cs:5,0.9){\color{red}Эталон};
+			\node at (axis cs:5,0.7){\color{green}Равномерная сетка};
+			\node at (axis cs:5,0.5){\color{blue}Чебышевская сетка};
+			\addplot[color=green,domain=-6:6,samples=100] table{out/tex/res_uniform.dat};
+			\addplot[color=blue,domain=-6:6,samples=100] table{out/tex/res_chebyshev.dat};
+			\addplot[color=red,domain=-6:6,samples=100]{1/(1+x*x)};
+			%\legend{$x = \overline{-6, 6}, \, y = 7, 3, 12, 4, 9, 1$};
+		\end{axis}
+	\end{tikzpicture}
+		\subsection{$f(x) = \frac{1}{1+x^2}, N = 4$}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm, height=7cm,
+			grid=major, legend pos=south east,
+			xlabel={$x$}, ylabel={$f(x)$}, ymin=0
+			]
+			\node at (axis cs:5,0.9){\color{red}Эталон};
+			\node at (axis cs:5,0.7){\color{green}Равномерная сетка};
+			\node at (axis cs:5,0.5){\color{blue}Чебышевская сетка};
+			\addplot[color=green,domain=-6:6,samples=100] table{out/tex/res_uniform1.dat};
+			\addplot[color=blue,domain=-6:6,samples=100] table{out/tex/res_chebyshev1.dat};
+			\addplot[color=red,domain=-6:6,samples=100]{1/(1+x*x)};
+			%\legend{$x = \overline{-6, 6}, \, y = 7, 3, 12, 4, 9, 1$};
+		\end{axis}
+	\end{tikzpicture}
+		\subsection{$f(x) = \frac{1}{1+x^2}, N = 8$}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm, height=7cm,
+			grid=major, legend pos=south east,
+			xlabel={$x$}, ylabel={$f(x)$}, ymin=0
+			]
+			\node at (axis cs:5,0.9){\color{red}Эталон};
+			\node at (axis cs:5,0.7){\color{green}Равномерная сетка};
+			\node at (axis cs:5,0.5){\color{blue}Чебышевская сетка};
+			\addplot[color=green,domain=-6:6,samples=100] table{out/tex/res_uniform2.dat};
+			\addplot[color=blue,domain=-6:6,samples=100] table{out/tex/res_chebyshev2.dat};
+			\addplot[color=red,domain=-6:6,samples=100]{1/(1+x*x)};
+			%\legend{$x = \overline{-6, 6}, \, y = 7, 3, 12, 4, 9, 1$};
+		\end{axis}
+	\end{tikzpicture}
+		\subsection{$f(x) = \frac{1}{1+x^2}, N = 16$}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm, height=7cm,
+			grid=major, legend pos=south east,
+			xlabel={$x$}, ylabel={$f(x)$}, ymin=0,ymax=1.2
+			]
+			\node at (axis cs:5,0.9){\color{red}Эталон};
+			\node at (axis cs:5,0.7){\color{green}Равномерная сетка};
+			\node at (axis cs:5,0.5){\color{blue}Чебышевская сетка};
+			\addplot[color=green,domain=-6:6,samples=100] table{out/tex/res_uniform3.dat};
+			\addplot[color=blue,domain=-6:6,samples=100] table{out/tex/res_chebyshev3.dat};
+			\addplot[color=red,domain=-6:6,samples=100]{1/(1+x*x)};
+			%\legend{$x = \overline{-6, 6}, \, y = 7, 3, 12, 4, 9, 1$};
+		\end{axis}
+	\end{tikzpicture}
+	
+	\subsection{$N=2$ \begin{equation*}
+			f(x) = 
+			\begin{cases}
+				1 &\text{ $x = 1$}\\
+				0 &\text{ $x \ne 1$}
+			\end{cases}
+	\end{equation*}}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm, height=7cm,
+			grid=major, legend pos=south east,
+			xlabel={$x$}, ylabel={$f(x)$}, ymin=0
+			]
+			\node at (axis cs:5,0.7){\color{green}Равномерная сетка};
+			\node at (axis cs:5,0.5){\color{blue}Чебышевская сетка};
+			\addplot[color=green,domain=-6:6,samples=100] table{out/tex/res_uniform4.dat};
+			\addplot[color=blue,domain=-6:6,samples=100] table{out/tex/res_chebyshev4.dat};
+			%\legend{$x = \overline{-6, 6}, \, y = 7, 3, 12, 4, 9, 1$};
+		\end{axis}
+	\end{tikzpicture}
+		\subsection{$N=4$ \begin{equation*}
+			f(x) = 
+			\begin{cases}
+				1 &\text{ $x = 1$}\\
+				0 &\text{ $x \ne 1$}
+			\end{cases}
+	\end{equation*}}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm, height=7cm,
+			grid=major, legend pos=south east,
+			xlabel={$x$}, ylabel={$f(x)$}, ymin=-0.2
+			]
+			\node at (axis cs:5,0.7){\color{green}Равномерная сетка};
+			\node at (axis cs:5,0.5){\color{blue}Чебышевская сетка};
+			\addplot[color=green,domain=-6:6,samples=100] table{out/tex/res_uniform5.dat};
+			\addplot[color=blue,domain=-6:6,samples=100] table{out/tex/res_chebyshev5.dat};
+			%\legend{$x = \overline{-6, 6}, \, y = 7, 3, 12, 4, 9, 1$};
+		\end{axis}
+	\end{tikzpicture}
+		\subsection{$N=8$ \begin{equation*}
+			f(x) = 
+			\begin{cases}
+				1 &\text{ $x = 1$}\\
+				0 &\text{ $x \ne 1$}
+			\end{cases}
+	\end{equation*}}
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=16cm, height=7cm,
+			grid=major, legend pos=south east,
+			xlabel={$x$}, ylabel={$f(x)$}, ymin=-0.2
+			]
+			\node at (axis cs:5,0.7){\color{green}Равномерная сетка};
+			\node at (axis cs:5,0.5){\color{blue}Чебышевская сетка};
+			\addplot[color=green,domain=-6:6,samples=100] table{out/tex/res_uniform6.dat};
+			\addplot[color=blue,domain=-6:6,samples=100] table{out/tex/res_chebyshev6.dat};
+			%\legend{$x = \overline{-6, 6}, \, y = 7, 3, 12, 4, 9, 1$};
+		\end{axis}
+	\end{tikzpicture}
+\end{document}
