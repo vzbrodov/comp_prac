@@ -11,37 +11,30 @@ function unif_interp (t) result (res)
 
         integer, parameter :: IN = 1
         integer ::  N
-        real, dimension (:), allocatable :: x, yk, phi
-        real :: a, b, t, res 
-
-
+        real(8), dimension (:), allocatable :: x, yk, phi
+        real(8) :: a, b, res, t 
 
         open (IN, file = 'in/uniform.dat')     
-                rewind(IN)
                 read (IN, '(2x, i10)') N
-                allocate (x(0:N), yk(0:N), phi(0:N))             ! Расположение в памяти и заполнение границ и значений функции в узлах
+                allocate (x(0:N), yk(0:N), phi(0:N))             ! phi - интерп. базис, yk - значения функции 
                 read (IN, *) a, b                 
                 read (IN, *) yk
         close (IN)
 
         do k = 0, N
-                x(k) = ((a+b) + (b-a)*(2.0*k/N - 1.0))/2.0    ! Заполнение узлов сетки 
+                x(k) = ((a+b) + (b-a)*(2.0*k/N - 1.0))/2.0    ! узлы сетки
         enddo
 
         phi = 1
 
-
-! Вычисление значения интерполяционного базиса в точке
-
-        do k  = 0, N
+        do k  = 0, N                            !вычисление интерполяционного базиса
                 do i = 0, N 
                         if (i == k) cycle
-
                         phi(k) = phi(k) * (t/(x(k) - x(i)) - x(i)/(x(k) - x(i)))
                 enddo 
         enddo 
 
-res = dot_product (phi, yk)
+res = dot_product (phi, yk)  !вычисление интерполяционного полинома
 
 deallocate (x, yk, phi)
 end function
@@ -52,54 +45,38 @@ function cheb_interp (t) result (res)
         implicit none
 
         integer, parameter :: IN = 1
-        real, parameter :: PI = 4.d0*datan(1.d0)
+        real(8), parameter :: PI = 4.d0*datan(1.d0)
         integer ::N
-        real, dimension (:), allocatable :: x, yk, phi
-        real :: a, b, t, res 
+        real(8), dimension (:), allocatable :: x, yk, phi
+        real(8) :: a, b, res, t,temp
 
 
 
-        open (IN, file = 'in/chebyshev.dat')       ! Чтение формата из файла
-                rewind(IN)
+        open (IN, file = 'in/chebyshev.dat')      
                 read (IN, '(2x, i10)') N
-
-                allocate (x(0:N), yk(0:N), phi(0:N))     ! Размещение и заполнение значения 
-                read (IN, *) a, b          ! функции в узлах интерполяции
+                allocate (x(0:N), yk(0:N), phi(0:N))     ! phi - интерп. базис, yk - значения функции 
+                read (IN, *) a, b          
                 read (IN, *) yk
         close (IN)      
 
-! Нахождение узлов интерполяции
         do k = 0, N
-                x(k) = ((a+b) + (b-a)*cos( (2*k + 1)*PI/(2*N + 2) ))/2
+                x(k) = (-1)*((a+b) + (b-a)*cos( (2.0*k + 1.0)*PI/(2.0*N + 2.0) ))/2.0   ! узлы сетки
         enddo
 
         phi = 1
 
-! Вычисление базиса полинома
 
-        do k  = 0, N
+        do k  = 0, N                    !вычисление интерполяционного базиса
                 do i = 0, N
                         if (i == k) cycle ! (x_i != x_k)
-
                         phi(k) = phi(k) * (t - x(i))/(x(k) - x(i))
                 enddo 
         enddo 
 
-
-! Вычисление значения полинома
-        res = dot_product (phi, yk)
+        res = dot_product (phi, yk)              !вычисление интерполяционного полинома
 
 deallocate (x, yk, phi)
 end function
-
-
-
-
-
-
-
-
-
 
 
 function tridiag (A, B) result (C) !Перемножение тредиагональных матриц
