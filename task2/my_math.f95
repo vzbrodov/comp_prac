@@ -60,11 +60,10 @@ function cheb_interp (t) result (res)
         close (IN)      
 
         do k = 0, N
-                x(k) = (-1)*((a+b) + (b-a)*cos( (2.0*k + 1.0)*PI/(2.0*N + 2.0) ))/2.0   ! узлы сетки
+                x(k) = ((a+b) + (b-a)*cos( (2.0*k + 1.0)*PI/(2.0*N + 2.0) ))/2.0   ! узлы сетки
         enddo
-
+        x=x(N:0:-1)
         phi = 1
-
 
         do k  = 0, N                    !вычисление интерполяционного базиса
                 do i = 0, N
