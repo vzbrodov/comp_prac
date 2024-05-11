@@ -14,6 +14,12 @@ subroutine create_QAB (X, P, A, B, Q)
 
     n = size(X) - 1
 
+
+     Q = 0
+    do i = 0, n
+        Q(2, i) = 1/P(i)
+    enddo 
+
     A = 0.0
     B = 0.0
     A(2, 0) = 2*(X(1)-X(0))
@@ -34,14 +40,9 @@ subroutine create_QAB (X, P, A, B, Q)
 
     A(1, 1) = 0 
     A(3,n-1) = 0
-     A(1, n) = 0
-        A(3, n) = 0
+    A(1, n) = 0
+    A(3, n) = 0
     A(2, n) = 2*(X(n) - X(n-1))
-
-    Q = 0
-        do i = 0, n
-            Q(2, i) = 1/P(i)
-        enddo 
 
 
 end subroutine create_QAB
