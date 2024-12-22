@@ -2,7 +2,7 @@ module nonlinear_system
 	use :: my_prec
     use :: linear_system
     implicit none
-    real(mp), parameter :: epsilon = 1e-5_mp
+    real(mp), parameter :: epsilon = 1e-7_mp
     contains
 
 function newton (f, x0, iter) result (x)
@@ -41,7 +41,7 @@ function matrix_jacobi(f, x) result (J)
     real(mp), dimension (1:) :: x
     real(mp), dimension (1:size(x), 1:size(x)) :: J
     real(mp), dimension (1:size(x)) :: h
-    real(mp), parameter :: sqreps = 1e-4_mp
+    real(mp), parameter :: sqreps = 1e-5_mp
     integer :: i
 	
     do  i=1, size (x)

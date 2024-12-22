@@ -16,13 +16,13 @@ implicit none
     do i=1,n
         t(i) = (i-1) * h
     end do
-    res1=0
-    res1 = rosenbroke(f, t, x0)
-    open (Rosenbroke_f, file = "rosen.dat")
-        do i = 1,n 
-                write(Rosenbroke_f, *) t(i), res1(:,i)
-        enddo
-	close(Rosenbroke_f)
+!    res1=0.0
+!    res1 = rosenbroke(f, t, x0)
+!    open (Rosenbroke_f, file = "rosen.dat")
+!        do i = 1,n 
+!                write(Rosenbroke_f, *) t(i), res1(:,i)
+!        enddo
+!	close(Rosenbroke_f)
 	res1=0
     res1 = precor(f, t, x0, k)
     open (Precor_f, file = "precor.dat")
@@ -30,5 +30,4 @@ implicit none
                 write(Precor_f, *) t(i), res1(:,i)
         enddo
 	close(Precor_f)
-    
 end program main
